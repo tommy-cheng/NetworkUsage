@@ -57,6 +57,7 @@ public class NetworkActivity extends Activity {
     private static boolean wifiConnected = false;
     // Whether there is a mobile connection.
     private static boolean mobileConnected = false;
+    private static boolean ethConnected = false;
     // Whether the display should be refreshed.
     public static boolean refreshDisplay = true;
 
@@ -119,9 +120,11 @@ public class NetworkActivity extends Activity {
         if (activeInfo != null && activeInfo.isConnected()) {
             wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
             mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+            ethConnected = activeInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
         } else {
             wifiConnected = false;
             mobileConnected = false;
+            ethConnected = false;
         }
     }
 
@@ -130,8 +133,10 @@ public class NetworkActivity extends Activity {
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
     private void loadPage() {
-        if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected))
-                || ((sPref.equals(WIFI)) && (wifiConnected))) {
+
+        if (((sPref.equals(ANY)) && (wifiConnected || mobileConnected || ethConnected))
+                || ((sPref.equals(WIFI)) && (
+                wifiConnected))) {
             // AsyncTask subclass
             new DownloadXmlTask().execute(URL);
         } else {

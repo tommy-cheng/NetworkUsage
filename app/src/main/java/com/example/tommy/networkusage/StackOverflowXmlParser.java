@@ -46,7 +46,8 @@ public class StackOverflowXmlParser {
         }
     }
 
-    private List<Entry> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private List<Entry> readFeed(XmlPullParser parser) throws XmlPullParserException
+            , IOException {
         List<Entry> entries = new ArrayList<Entry>();
 
         parser.require(XmlPullParser.START_TAG, ns, "feed");
@@ -92,6 +93,8 @@ public class StackOverflowXmlParser {
                 continue;
             }
             String name = parser.getName();
+
+
             if (name.equals("title")) {
                 title = readTitle(parser);
             } else if (name.equals("summary")) {
